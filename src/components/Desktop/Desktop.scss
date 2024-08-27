@@ -1,0 +1,192 @@
+.desktop {
+    height: 100vh;
+    width: 100vw;
+    background-color: #007d7b;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: -999;
+    transition: 500ms all;
+
+    .letter {
+        padding: 5px;
+        display: grid;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+        cursor: default;
+
+        &:active {
+            box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+        }
+    }
+
+    .text {
+        background: white;
+        padding: 5px;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+        word-wrap: break-word;
+    }
+
+    .messages {
+        padding: 5px;
+        background: white;
+        overflow: auto;
+        display: inline-block;
+        height: 175px;
+        width: 381px;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+
+        .user {
+            padding: 5px;
+            background: gray;
+            display: grid;
+            align-items: center;
+            justify-content: start;
+            color: white;
+        }
+
+        .your {
+            padding: 5px;
+            background: gray;
+            display: grid;
+            align-items: center;
+            justify-content: end;
+            color: white;
+            background: rgb(84, 84, 84);
+        }
+    }
+
+    .command {
+        padding: 5;
+        background: black;
+        color: white;
+        margin-top: 5px;
+        width: 200px;
+        height: 200px;
+    }
+
+    .not-tasks {
+        display: grid;
+        flex-wrap: wrap;
+        width: 250px;
+        gap: 5px;
+        margin-top: 5px;
+        height: 245px;
+        overflow: auto;
+
+        .task {
+            box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+            cursor: default;
+            display: flex;
+            align-items: center;
+    
+            img {
+                width: 80px;
+            }
+
+            p {
+                margin-left: 5px;
+                font-weight: bold;
+            }
+    
+            &:active {
+                box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+            }
+        }
+    }
+
+    .tasks {
+        display: flex;
+        flex-wrap: wrap;
+        width: 263px;
+        gap: 5px;
+        margin-top: 5px;
+        height: 245px;
+        overflow: auto;
+
+        .task {
+            box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            img {
+                width: 80px;
+            }
+    
+            &:active {
+                box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+            }
+        }
+    }
+
+    .block {
+        padding: 4px;
+        background: white;
+        display: block;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+
+        .card {
+            background: silver;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: default;
+            width: 150px;
+            transition: 300ms all ease;
+
+            img {
+                width: 75px;
+            }
+
+            &:hover {
+                width: 295px;
+                background: blue;
+                color: white
+            }
+
+            &:active {
+                background: rgb(0, 60, 255);
+                color: white;
+                transform: scale(0.8);
+            }
+        }
+
+        .mb {
+            margin-bottom: 3px;
+        }
+
+        .mr {
+            margin-right: 50px;
+        }
+
+        .ml {
+            margin-left: 20px;
+        }
+    }
+
+    .controls {
+        margin-top: 5px;
+        padding: 4px;
+        background: white;
+        display: block;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+
+        .control {
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            padding: 10px;
+            background: rgb(206, 206, 206);
+            cursor: default;
+
+            &:hover {
+                background: rgb(0, 94, 255);
+                color: white;
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pixelated MS Sans Serif", Arial;
+  text-decoration: none;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+meter::-webkit-meter-bar {
+  padding: 2px;
+  border-radius: 0px;
+  background: grey;
+  width: 215px;
+  height: 30px;
+}
+
+meter::-webkit-meter-optimum-value {
+  background: blue; /* Цвет шкалы значения */
+}
+
+img {
+  cursor: default;
+}
+
+.login {
+  height: 100vh;
+  width: 100vw;
+  background: url('https://64.media.tumblr.com/8aa5c81f3eefb2df4b85dcded846b9d2/e93fa6c6485b4df5-05/s540x810/530958a27db40632c789203fa91032affa67717d.png');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: -999;
+}
+
+textarea {
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+  background: white;
+  outline: none;
+}

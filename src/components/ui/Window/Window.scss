@@ -1,0 +1,62 @@
+@keyframes animate {
+    from {
+        transform: scale(0.5);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+.window {
+    position: fixed;
+    padding: 2px;
+    box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
+    z-index: 100;
+    animation: animate linear 300ms;
+
+    .title {
+        align-items: center;
+        background: blue;
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 3px 1.5px;
+        color: white;
+        font-family: "Pixelated MS Sans Serif", Arial;
+        font-size: 11px;
+        cursor: all-scroll;
+
+        h5 {
+            margin-right: 15px;
+        }
+    }
+
+    .not-title {
+        align-items: center;
+        background: blue;
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 3px 1.5px;
+        color: white;
+        font-family: "Pixelated MS Sans Serif", Arial;
+        font-size: 11px;
+        cursor: all-scroll;
+
+        h5 {
+            margin-right: 2px;
+            margin-left: 15px;
+        }
+    }
+
+    .content {
+        padding: 5px;
+        background: #C0C0C0;
+        transition: 500ms all;
+        overflow: hidden;
+        transition: 500ms all;
+    }
+
+    &:active {
+        z-index: 999;
+    }
+}

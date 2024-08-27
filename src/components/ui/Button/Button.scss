@@ -1,0 +1,24 @@
+.disabled {
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4.5px 8px;
+    background: silver;
+    box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+}
+
+.btn {
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4.5px 8px;
+    background: silver;
+    box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+
+    &:active {
+        cursor: progress;
+        box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+    }
+}
