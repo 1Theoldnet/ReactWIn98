@@ -1,13 +1,53 @@
 .desktop {
     height: 100vh;
     width: 100vw;
-    background-color: #007d7b;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: -999;
-    transition: 500ms all;
+
+    .add-folder {
+        background: white;
+        padding: 5px;
+        position: fixed;
+        top: 5;
+        border-radius: 10px;
+        right: 5;
+    }
+
+    .folder {
+        padding: 5px;
+
+        img {
+            width: 80px;
+            height: 70px;
+            transform: scale(1);
+        }
+
+        p {
+            font-weight: bold;
+        }
+    }
+
+    .active-folder {
+        background: rgb(0, 68, 255);
+        padding: 5px;
+
+        img {
+            width: 80px;
+            height: 70px;
+            transform: scale(1);
+        }
+
+        p {
+            font-weight: bold;
+            color: white;
+        }
+    }
 
     .letter {
         padding: 5px;

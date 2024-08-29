@@ -3,10 +3,9 @@ import { Window } from '../ui/Window/Window'
 import { Button } from '../ui/Button/Button'
 import { Input } from '../ui/Input/Input'
 import { Image } from '../ui/Image/Image'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { text as readme } from '../../main'
 import { FaBold, FaHome, FaItalic, FaUsers } from 'react-icons/fa'
-import { IoMdHelp } from "react-icons/io"
 import { HiArrowLeftCircle } from "react-icons/hi2"
 import { HiArrowRightCircle } from "react-icons/hi2"
 import { CiUnlock } from 'react-icons/ci'
@@ -15,35 +14,11 @@ import './Desktop.scss'
 import { colors } from '../../colors'
 import { IoClose, IoHelp } from 'react-icons/io5'
 import axios from 'axios'
+import { IoMdHelp } from 'react-icons/io'
+import { BsFillEnvelopeExclamationFill } from 'react-icons/bs'
+import { RiFlaskLine } from 'react-icons/ri'
 
-export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt, setTxt, notepad, setNotepad, win, setWin, image, setImage, ie, setIE, setOpen, open, calc, setCalc, welcome, setWelcome, control, setControl, font, setFont, chat, setChat, user, setUser, letter, setLetter, command, setCommand, taskman, setTaskman }) => {
-    useEffect(() => {
-        const getMessages = async () => {
-            try {
-                await axios
-                    .get('http://localhost:3000/api/message/get')
-                    .then(res => setMessages(res.data))
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        const getUsers = async () => {
-            try {
-                await axios
-                    .get('http://localhost:3000/api/user')
-                    .then(res => setUsers(res.data))
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        getMessages()
-        getUsers()
-    }, [])
-
-    const [window, setWindow] = useState(user?.isWindow)
-
+export const Desktop = ({ setIsWindow, setBgStartbar, setIsMenu, setIsStartbar, setColorWindow, setBgWindow, setColorButton, setBgButton, setBackground, colorButton, bgButton, background, isMenu, isWindow, colorWindow, bgWindow, showWindow, setOpenMenu, explorer, setExplorer, help, setHelp, txt, setTxt, notepad, setNotepad, win, setWin, image, setImage, ie, setIE, setOpen, open, calc, setCalc, welcome, setWelcome, control, setControl, font, setFont, command, setCommand, taskman, setTaskman }) => {
     const [text, setText] = useState('PC')
 
     const [step, setStep] = useState(0)
@@ -62,7 +37,7 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
 
     const [bg, setBg] = useState('')
 
-    const [url, setUrl] = useState('http://666.com/')
+    const [url, setUrl] = useState('http://theoldnet.com/')
 
     const [error, setError] = useState(false)
 
@@ -128,46 +103,20 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
 
     const [document, setDocument] = useState(null)
 
-    const [messages, setMessages] = useState([])
-
-    const [message, setMessage] = useState('')
-
-    const [search, setSearch] = useState('')
-
-    const [name, setName] = useState(user?.name)
-
-    const [password, setPassword] = useState(user?.password)
-
-    const [p, setP] = useState(0)
-
-    const [n, setN] = useState(null)
-
-    const [l, setL] = useState(null)
-
-    const [users, setUsers] = useState([])
-
-    const [searchI, setSearchI] = useState('')
-
-    const [t, setT] = useState('')
-
     const [h, setH] = useState(false)
 
     const [vid, setVid] = useState(false)
 
-    const [windowButton, setWindowButton] = useState(false)
-
     const [q, setQ] = useState('')
 
-    const [menu, setMenu] = useState(user?.isMenu)
-
     return (
-        <div className="desktop" onClick={() => setOpenMenu(false)} style={{ background: `${user?.background}` }}>
-            {taskman && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Taskman' isBtn onClick={() => setTaskman(false)}>
+        <div className="desktop" onClick={() => setOpenMenu(false)} style={{ backgroundImage: `url(${background})` }}>
+            {taskman && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Taskman' isBtn onClick={() => setTaskman(false)}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
-                    <Button text='Новая задача' onClick={() => setOpen(true)} />
+                    <Button color={colorButton} background={bgButton} text='Новая задача' onClick={() => setOpen(true)} />
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <p style={{ marginRight: 5 }}>Вид: </p>
-                        <Button text={vid ? 'Стандарт' : 'Список'} onClick={() => setVid(!vid)} />
+                        <Button color={colorButton} background={bgButton} text={vid ? 'Стандарт' : 'Список'} onClick={() => setVid(!vid)} />
                     </div>
                 </div>
 
@@ -244,75 +193,10 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 </div>    
             </Window>}
 
-            {letter && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Почта' isBtn onClick={() => { setLetter(false), setP(0) }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', marginBottom: 5 }}>
-                    {p !== 0 ? <Button color={user?.colorButton} background={user?.bgButton} text={<GoArrowLeft />} onClick={() => { setP(0), setT(''), setN(null), setL(null) }} /> : <Button color={user?.colorButton} background={user?.bgButton} text={<GoArrowLeft />} disabled />}
-                    <Button color={user?.colorButton} background={user?.bgButton} text={<FaHome />} onClick={() => setP(0)} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text={<FaUsers />} onClick={() => setP(1)} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text={<IoHelp />} onClick={() => setP(3)} />
-                </div>
-
-                {p === 0 && <div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '2fr 2fr', gap: 3, marginTop: 3, height: 110, overflow: 'auto' }}>
-                        {user?.letters?.map((el, i) => <div key={i} className='letter' onClick={() => { setP(4), setL(i) }}>
-                            <p>Письмо: {i}</p>
-                            <p>От кого: {el.username}</p>
-                        </div>)}
-                    </div>
-                </div>}
-
-                {p === 1 && <div>
-                    <Input type='search' placeholder='Поиск по имени' value={searchI} onChange={e => setSearchI(e.target.value)} />
-                    <div style={{ display: 'grid', gridTemplateColumns: '2fr 2fr', gap: 3, marginTop: 3, height: 110, overflow: 'auto' }}>
-                        {users?.filter(el => el.name.toLowerCase().includes(searchI.toLowerCase())).map((el, i) => <div key={i} className='btn' onClick={() => { setP(2), setN(i) }}>
-                            <img width={25} src="https://64.media.tumblr.com/3a0a6a2aed96741709ab8717e3318818/76c94287993d6a1d-61/s540x810/750ed8a95cdc700e25693c357aadf23e525d7773.png" />
-                        </div>)}
-                    </div>
-                </div>}
-
-                {p === 2 && <div>
-                    <textarea style={{ width: 150, height: 150, resize: 'none' }} placeholder='Text' value={t} onChange={e => setT(e.target.value)}></textarea>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                        <Button color={user?.colorButton} background={user?.bgButton} text='Send' disabled={t !== '' ? false : true} width={150} onClick={async () => {
-                            try {
-                                if(users[n].id === user?.id) {
-                                    alert('Вы не можете отправить письмо себе!')
-                                    setP(1)
-                                    setT('')
-                                    return
-                                }
-
-                                const dto = {
-                                    username: user?.name,
-                                    text: t,
-                                    user: users[n].id,
-                                }
-
-                                await axios
-                                    .post('http://localhost:3000/api/letter', dto)
-                                    .then(() => alert(`Вы успешно отправили письмо ${users[n].name}`))
-                            } catch (error) {
-                                console.error(error)
-                            }
-                        }} />
-                    </div>
-                </div>}
-
-                {p === 3 && <div style={{ textAlign: 'center' }}>
-                    <img width={100} src='https://64.media.tumblr.com/28f7d41869ff8aec052777020eeb6242/3f276049d15c8c6e-91/s540x810/385b0d2b0f77ad276bbbdc640695b2b71a483d7a.png' />
-                    <h6>{font ? '_______ ____' : 'Почта v1.0'}</h6>
-                    <h6 style={{ marginTop: '2px', textAlign: 'center' }}>&copy;2023-2024</h6>
-                </div>}
-
-                {p === 4 && <div className='text'>
-                    <p>{user?.letters[l].text}</p>
-                </div>}
-            </Window>}
-
-            {command && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='MS-DOS prompt' isBtn onClick={() => setCommand(false)}>
+            {command && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='MS-DOS prompt' isBtn onClick={() => setCommand(false)}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
                     <Input placeholder='Command' value={commandText} onChange={e => setCommandText(e.target.value)} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text='GO' onClick={() => {
+                    <Button color={colorButton} background={bgButton} text='GO' onClick={() => {
                         if(ct === 'C:/' && commandText === 'dir') {
                             setCT(`
                                 Windows
@@ -367,9 +251,9 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 </div>
             </Window>}
 
-            {control && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title={pageControl === 0 ? 'Панель управления' : pageControl === 1 ? 'Экран' : pageControl === 2 ? 'Окна' : pageControl === 3 ? 'Кнопки' : pageControl === 4 ? 'User' : pageControl === 5 ? 'Система' : 'Пуск'} isBtn onClick={() => { setControl(false), setPageControl(0), setInpColorWindow(''), setInpBgWindow(''), setInpColorButton(''), setInpBgButton('') } }>
+            {control && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title={pageControl === 0 ? 'Панель управления' : pageControl === 1 ? 'Экран' : pageControl === 2 ? 'Окна' : pageControl === 3 ? 'Кнопки' : pageControl === 4 ? 'User' : pageControl === 5 ? 'Система' : 'Пуск'} isBtn onClick={() => { setControl(false), setPageControl(0), setInpColorWindow(''), setInpBgWindow(''), setInpColorButton(''), setInpBgButton('') } }>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
-                    {pageControl !== 0 && <Button color={user?.colorButton} background={user?.bgButton} text={<GoArrowLeft />} onClick={() => setPageControl(0)} />}
+                    {pageControl !== 0 && <Button color={colorButton} background={bgButton} text={<GoArrowLeft />} onClick={() => setPageControl(0)} />}
                 </div>
 
                 <div className='controls'>
@@ -400,67 +284,43 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                         </div>
                     </div>}
 
-                    {pageControl === 1 && <div style={{ display: 'grid', gridTemplateColumns: '3fr 3fr', gap: 5 }}>
-                        {colors.map(el => <div key={el.color} style={{ background: `${el.color}`, padding: 5, height: 40, width: 40, border: `${el.color === 'white' ? '1px solid black' : ''}`, cursor: 'pointer' }} onClick={async () => {
-                            try {
-                                await axios
-                                    .put(`http://localhost:3000/api/user/updateBackground/${user?.id}`, { background: el.color })
-                                    .then(async () => {
-                                        try {
-                                            await axios
-                                                .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                .then(res => setUser(res.data))
-                                        } catch (error) {
-                                            console.error(error)
-                                        }
-                                    })
-                            } catch (error) {
-                                
-                            }
+                    {pageControl === 1 && <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, width: 319, overflow: 'auto', height: 310 }}>
+                        {colors.map(el => <div key={el.color} style={{ background: `url(${el.color})`, padding: 5, height: 100, width: 100, cursor: 'pointer', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }} onClick={() => {
+                            localStorage.setItem('background', el.color)
+                            setBackground(localStorage.getItem('background'))
                         }}></div>)}
                     </div>}
 
                     {pageControl === 6 && <div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <Input placeholder='Фон' value={q} onChange={e => setQ(e.target.value)} />
-                            <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'} disabled={q === '' ? true : false} onClick={async () => {
-                                try {
-                                    await axios
-                                        .put(`http://localhost:3000/api/user/updateBgStartbar/${user?.id}`, { bgStartbar: q })
-                                        .then(async () => {
-                                            try {
-                                                axios
-                                                    .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                    .then(res => { setUser(res.data), setQ('') })
-                                            } catch (error) {
-                                                console.error(error)
-                                            }
-                                        })
-                                } catch (error) {
-                                    console.error(error)
-                                }
+                            <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'} disabled={q === '' ? true : false} onClick={() => {
+                                localStorage.setItem('bgStartbar', q)
+                                setBgStartbar(localStorage.getItem('bgStartbar'))
+                            }} />
+                        </div>
+                        
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            Расположение: <Button text='Низ' onClick={() => {
+                                localStorage.setItem('isStartbar', 'bottom')
+                                setIsStartbar(localStorage.getItem('isStartbar'))
+                            }} />
+
+                            <Button text='Верх' onClick={() => {
+                                localStorage.setItem('isStartbar', 'top')
+                                setIsStartbar(localStorage.getItem('isStartbar'))
                             }} />
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            Вид: <Button text={menu ? 'Анимированный' : 'Класический'} onClick={async () => {
-                                try {
-                                    setMenu(!menu)
-
-                                    await axios
-                                        .put(`http://localhost:3000/api/user/updateIsMenu/${user?.id}`, { isMenu: menu })
-                                        .then(async () => {
-                                            try {
-                                                axios
-                                                    .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                    .then(res => setUser(res.data))
-                                            } catch (error) {
-                                                console.error(error)
-                                            }
-                                        })
-                                } catch (error) {
-                                    console.error(error)
+                            Вид меню: <Button text={isMenu ? 'Класический' : 'Анимированный'} onClick={() => {
+                                if(isMenu) {
+                                    localStorage.setItem('isMenu', false)
+                                    setIsMenu(false)
                                 }
+ 
+                                localStorage.setItem('isMenu', true)
+                                setIsMenu(true)
                             }} />
                         </div>
                     </div>}
@@ -468,63 +328,27 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                     {pageControl === 2 && <div style={{ display: 'block', width: 200 }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <Input placeholder='Цвет' value={inpColorWindow} onChange={e => setInpColorWindow(e.target.value)} />
-                            <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'} disabled={inpColorWindow === '' ? true : false} onClick={async () => {
-                                try {
-                                    await axios
-                                        .put(`http://localhost:3000/api/user/updateColorWindow/${user?.id}`, { colorWindow: inpColorWindow })
-                                        .then(async () => {
-                                            try {
-                                                axios
-                                                    .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                    .then(res => { setUser(res.data), setInpColorWindow('')})
-                                            } catch (error) {
-                                                console.error(error)
-                                            }
-                                        })
-                                } catch (error) {
-                                    console.error(error)
-                                }
+                            <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'} disabled={inpColorWindow === '' ? true : false} onClick={async () => {
+                                localStorage.setItem('colorWindow', inpColorWindow)
+                                setColorWindow(localStorage.getItem('colorWindow'))
                             }} />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <Input placeholder='Фон' value={inpBgWindow} onChange={e => setInpBgWindow(e.target.value)} />
-                            <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  disabled={inpBgWindow === '' ? true : false} onClick={async () => {
-                                try {
-                                    await axios
-                                        .put(`http://localhost:3000/api/user/updateBgWindow/${user?.id}`, { bgWindow: inpBgWindow })
-                                        .then(async () => {
-                                            try {
-                                                axios
-                                                    .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                    .then(res => { setUser(res.data), setInpBgWindow('') })
-                                            } catch (error) {
-                                                console.error(error)
-                                            }
-                                        })
-                                } catch (error) {
-                                    console.error(error)
-                                }
+                            <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  disabled={inpBgWindow === '' ? true : false} onClick={async () => {
+                                localStorage.setItem('bgWindow', inpBgWindow)
+                                setBgWindow(localStorage.getItem('bgWindow'))
                             }} />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
-                            <Button color={user?.colorButton} background={user?.bgButton} text={windowButton ? 'Кнопки в право' : 'Кнопки в лево'}  onClick={async () => {
-                                try {
-                                    setWindowButton(!windowButton)
+                            <Button color={colorButton} background={bgButton} text='Кнопки в право' onClick={() => {
+                                localStorage.setItem('isWindow', false)
+                                setIsWindow(localStorage.getItem('isWindow'))
+                            }}/>
 
-                                    await axios
-                                        .put(`http://localhost:3000/api/user/updateIsWindow/${user?.id}`, { isWindow: windowButton })
-                                        .then(async () => {
-                                            try {
-                                                axios
-                                                    .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                    .then(res => { setUser(res.data), setWindow(res.data?.isWindow) })
-                                            } catch (error) {
-                                                console.error(error)
-                                            }
-                                        })
-                                } catch (error) {
-                                    console.error(error)
-                                }
+                            <Button color={colorButton} background={bgButton} text='Кнопки в лево' onClick={() => {
+                                localStorage.setItem('isWindow', true)
+                                setIsWindow(localStorage.getItem('isWindow'))
                             }}/>
                         </div>
                     </div>}
@@ -532,66 +356,18 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                     {pageControl === 3 && <div style={{ display: 'block', width: 200 }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <Input placeholder='Цвет' value={inpColorButton} onChange={e => setInpColorButton(e.target.value)} />
-                            <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  disabled={inpColorButton === '' ? true : false} onClick={async () => {
-                                try {
-                                    await axios
-                                        .put(`http://localhost:3000/api/user/updateColorButton/${user?.id}`, { colorButton: inpColorButton })
-                                        .then(async () => {
-                                            try {
-                                                axios
-                                                    .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                    .then(res => { setUser(res.data), setInpColorButton('') })
-                                            } catch (error) {
-                                                console.error(error)
-                                            }
-                                        })
-                                } catch (error) {
-                                    console.error(error)
-                                }
+                            <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  disabled={inpColorButton === '' ? true : false} onClick={async () => {
+                                localStorage.setItem('colorButton', inpColorButton)
+                                setColorButton(localStorage.getItem('colorButton'))
                             }} />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <Input placeholder='Фон' value={inpBgButton} onChange={e => setInpBgButton(e.target.value)} />
-                            <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  disabled={inpBgButton === '' ? true : false} onClick={async () => {
-                                try {
-                                    await axios
-                                        .put(`http://localhost:3000/api/user/updateBgButton/${user?.id}`, { bgButton: inpBgButton })
-                                        .then(async () => {
-                                            try {
-                                                axios
-                                                    .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                    .then(res => { setUser(res.data), setInpBgButton('') })
-                                            } catch (error) {
-                                                console.error(error)
-                                            }
-                                        })
-                                } catch (error) {
-                                    console.error(error)
-                                }
+                            <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  disabled={inpBgButton === '' ? true : false} onClick={async () => {
+                                localStorage.setItem('bgButton', inpBgButton)
+                                setBgButton(localStorage.getItem('bgButton'))
                             }} />
                         </div>
-                    </div>}
-
-                    {pageControl === 4 && <div style={{ display: 'block' }}>
-                        <Input placeholder='Имя' value={name} onChange={e => setName(e.target.value)} />
-                        <Input placeholder='Пароль' value={password} onChange={e => setPassword(e.target.value)} />
-                        <Button text={font ? '-_________' : 'Сохранить'} onClick={async () => {
-                            try {
-                                await axios
-                                    .put(`http://localhost:3000/api/user/update/${user?.id}`, { name, password })
-                                    .then(async () => {
-                                        try {
-                                            axios
-                                                .get(`http://localhost:3000/api/user/${user?.id}`)
-                                                .then(res => { setUser(res.data), setName(''), setPassword('') })
-                                        } catch (error) {
-                                            console.error(error)
-                                        }
-                                    })
-                            } catch (error) {
-                                console.error(error)
-                            }
-                        }} />
                     </div>}
 
                     {pageControl === 5 && <div style={{ display: 'block', width: 200 }}>
@@ -626,11 +402,11 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 </div>
             </Window>}
 
-            {explorer && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Проводник' isBtn onClick={() => { setExplorer(false), setStep(0), setText('PC'), setExplorerAbout(false) }}>
+            {explorer && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Проводник' isBtn onClick={() => { setExplorer(false), setStep(0), setText('PC'), setExplorerAbout(false) }}>
                 {!loading && <>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '5px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
-                        <Button color={user?.colorButton} background={user?.bgButton} onClick={() => {
+                        <Button color={colorButton} background={bgButton} onClick={() => {
                             if(text === 'PC/C:') {
                                 setStep(0)
                                 setText('PC')
@@ -648,7 +424,7 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                             }
 
                         }} text={<GoArrowLeft />} disabled={text === 'PC' ? true : false} />
-                        <Button color={user?.colorButton} background={user?.bgButton} onClick={() => {
+                        <Button color={colorButton} background={bgButton} onClick={() => {
                             if(text === 'PC/C:') {
                                 setStep(2)
                                 setText('PC/C:/Windows')
@@ -661,10 +437,10 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
 
                         }} text={<GoArrowRight />} disabled={text === 'PC/C:/Windows/System32'  || text === 'PC' || text === 'PC/C:' || text === 'PC/C:/My Documents' ? true : false} />
                     </div>
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text={<FaHome />} onClick={() => { setStep(0), setText('PC') }} /></div>
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text={<IoMdHelp />} onClick={() => setExplorerAbout(true)} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text={<FaHome />} onClick={() => { setStep(0), setText('PC') }} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text={<IoMdHelp />} onClick={() => setExplorerAbout(true)} /></div>
                     <div style={{ marginLeft: '5px', marginRight: '5px' }}><Input value={text} onChange={e => setText(e.target.value)} /></div>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'GO'} onClick={() => fun()} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'GO'} onClick={() => fun()} />
                 </div>
                 </>}
 
@@ -732,7 +508,7 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                             <b className='mr'>Taskman.exe</b>
                         </div>
                         <div className="card mb" onClick={() => setWelcome(true)}>
-                            <img src="https://64.media.tumblr.com/ed74df4f311fb03716ecfd541736bab6/68ea07cdc3fbb503-fb/s540x810/1e9cc23bcb0739462b961f57ea3f5f1a5128a385.png" />
+                            <img src="https://win98icons.alexmeub.com/icons/png/windows_slanted-1.png" />
                             <b className='mr'>Welcome.exe</b>
                         </div>
                         <div className="card mb" onClick={() => setCalc(true)}>
@@ -798,120 +574,66 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 </div>
             </Window>}
 
-            {openDocument && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title={user?.documents[document].title === '' ? 'Documnent' : user?.documents[document].title > 10 ? '...' : user?.documents[document].title} isBtn onClick={() => { setOpenDocument(false), setDocument(null) }}>
+            {openDocument && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title={user?.documents[document].title === '' ? 'Documnent' : user?.documents[document].title > 10 ? '...' : user?.documents[document].title} isBtn onClick={() => { setOpenDocument(false), setDocument(null) }}>
                 <div style={{ overflow: 'auto', padding: '5px', background: `${user?.documents[document].backround}`, color: `${user?.documents[document].color}`, fontSize: `${user?.documents[document].size}px`, width: 250, height: 250 }}>
                     {user?.documents[document].text}
                 </div>
             </Window>}
 
-            {error && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Ошибка' isBtn onClick={() => setError(false)}>
+            {error && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Ошибка' isBtn onClick={() => setError(false)}>
                 <h6>{font ? '____________ ____ ______' : 'Неправильный путь папки!'}</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '3px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setError(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setError(false)} />
                 </div>
             </Window>}
 
-            {errorA && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Ошибка' isBtn onClick={() => setErrorA(false)}>
-                <h6>{font ? '_______ _______ _ _________' : 'Вставте дискету в флаповод!'}</h6>
+            {errorA && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Ошибка' isBtn onClick={() => setErrorA(false)}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <img src="https://win98icons.alexmeub.com/icons/png/msg_error-0.png" width={30} style={{ marginRight: 10 }} />
+                    <h6>{font ? '_______ _______ _ _________' : 'Вставте дискету в флаповод!'}</h6>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '3px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setErrorA(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setErrorA(false)} />
                 </div>
             </Window>}
 
-            {help && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Справка' isBtn onClick={() => setHelp(false)}>
+            {help && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Справка' isBtn onClick={() => setHelp(false)}>
                 <h6>{font ? '______ ______ _______ ________ _________' : 'Данная версия windows является улутшеной'}</h6>
                 <h6>{font ? '______ _______ __ _____' : 'версией windows 98 v1.0.'}</h6>
                 <h6>{font ? '___ ____ __________ ____, _____ ________ _ ________' : 'Тут были исправлены баги, более приятный и понятный'}</h6>
                 <h6>{font ? '________________ _________, _________ _________' : 'пользовательский интерфейс, добавился проводник'}</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '3px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setHelp(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setHelp(false)} />
                 </div>
             </Window>}
 
-            {chat && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Chat' isBtn onClick={() => setChat(false)}>
-                <div className="messages">
-                    <div style={{ marginBottom: '5px' }}><Input value={search} onChange={e => setSearch(e.target.value)} type='search' placeholder='Поиск сообщений' /></div>
-                    {messages.filter(el => el.text.toLowerCase().includes(search.toLowerCase())).map(message => <div key={message.id} style={{ marginTop: `${messages.length > 1 ? '5px' : '0px'}` }} className={`${message.user?.id === user?.id ? 'your' : 'user'}`}>
-                        {message.user?.id === user?.id ? 'Your' : `${message.user.name}`}
-                        <h6>{message.text}</h6>
-                        {message.user?.id === user?.id && <div style={{ marginTop: 5 }}><Button text='❌' onClick={async () => {
-                            try {
-                                await axios
-                                    .delete(`http://localhost:3000/api/message/${message.id}`)
-                                    .then(res => {
-                                        try {
-                                            axios
-                                                .get('http://localhost:3000/api/message/get')
-                                                .then(res => setMessages(res.data))
-                                        } catch (error) {
-                                            console.error(error)
-                                        }
-                                    })
-                            } catch (error) {
-                                console.error(error)
-                            }
-                        }} /></div>}
-                    </div>)}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', marginTop: '3px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text='😊' onClick={() => setMessage(message + '😊')} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text='😎' onClick={() => setMessage(message + '😎')} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text='👍' onClick={() => setMessage(message + '👍')} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text='💖' onClick={() => setMessage(message + '💖')} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text='😁' onClick={() => setMessage(message + '😁')} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text='🤣' onClick={() => setMessage(message + '🤣')} />
-                    <div style={{ marginLeft: 5, marginRight: 5 }}><Input type='search' placeholder='Сообщение' value={message} onChange={e => setMessage(e.target.value)} /></div>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'GO'} disabled={message === '' ? true : false} onClick={async () => {
-                        try {
-                            const dto = { text: message, user: user?.id }
-
-                            await axios
-                                .post('http://localhost:3000/api/message/post', dto)
-                                .then(res => {
-                                    try {
-                                        axios
-                                            .get('http://localhost:3000/api/message/get')
-                                            .then(res => setMessages(res.data))
-                                    } catch (error) {
-                                        console.error(error)
-                                    }
-                                })
-
-                            setMessage('')
-                        } catch (error) {
-                            console.error(error)
-                        }
-                    }} />
-                </div>
-            </Window>}
-
-            {welcome && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Welcome' isBtn onClick={() => setWelcome(false)}>
+            {welcome && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Welcome' isBtn onClick={() => setWelcome(false)}>
                 <h6>{font ? '_____ __________ _ _______ __ ____ ___' : 'Добро пожаловать в windows 98 v2.0 RTM'}</h6>
                 <div style={{ marginLeft: '3.8rem', marginTop: '3px' }}><Image width={100} src='https://64.media.tumblr.com/3606de52c4d1b46b3461ec56de67ecf1/1deb8f7c5ea20016-36/s540x810/100ee5271f31915b6757108e58cb210a27606d26.gifv' /></div>
                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 2fr', marginTop: '5px', gap: '2px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '_______' : 'Справка'} onClick={() => setHelp(true)} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '_________' : 'Проводник'} onClick={() => setExplorer(true)} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '_________' : 'Выполнить'} onClick={() => setOpen(true)} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '________' : 'Интернет'} onClick={() => setIE(true)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '_______' : 'Справка'} onClick={() => setHelp(true)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '_________' : 'Проводник'} onClick={() => setExplorer(true)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '_________' : 'Выполнить'} onClick={() => setOpen(true)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '________' : 'Интернет'} onClick={() => setIE(true)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'end', marginTop: '3px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '_______' : 'Закрыть'} onClick={() => setWelcome(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '_______' : 'Закрыть'} onClick={() => setWelcome(false)} />
                 </div>
             </Window>}
 
-            {txt && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Readme' isBtn onClick={() => setTxt(false)}>
+            {txt && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Readme' isBtn onClick={() => setTxt(false)}>
                 <div style={{ overflow: 'auto', padding: '5px', background: 'white', width: 250, height: 250 }}>
                     {readme}
                 </div>
             </Window>}
 
-            {calc && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Calc' isBtn onClick={() => { setCalc(false), setOper(''), setFirstNumber(null), setResult('') }}>
+            {calc && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Calc' isBtn onClick={() => { setCalc(false), setOper(''), setFirstNumber(null), setResult('') }}>
                 <Input value={result} onChange={e => setResult(e.target.value)} />
                 <div style={{ display: 'grid', marginTop: '5px', gridTemplateColumns: '1fr 1fr 1fr' }}>
-                    {numbers.map(el => <Button color={user?.colorButton} key={el} background={user?.bgButton} text={el} onClick={() => setResult(result + el)} />)}
+                    {numbers.map(el => <Button color={colorButton} key={el} background={bgButton} text={el} onClick={() => setResult(result + el)} />)}
                 </div>
                 <div style={{ display: 'grid', marginTop: '5px', gridTemplateColumns: '1fr 1fr 1fr' }}>
-                    {operations.map(el => <Button key={el} disabled={result === '' ? true : false} color={user?.colorButton} background={user?.bgButton} text={el} onClick={() => {
+                    {operations.map(el => <Button key={el} disabled={result === '' ? true : false} color={colorButton} background={bgButton} text={el} onClick={() => {
                         setOper(el), setFirstNumber(result), setResult('')
 
                         if(el === '=') {
@@ -935,9 +657,12 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 </div>
             </Window>}
 
-            {h && <Window isWindow={window} title='Warning' isBtn onClick={() => setH(false)}>
-                <h4>Your can save this document on you pc?</h4>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
+            {h && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} title='Warning' isBtn onClick={() => setH(false)}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '5px' }}>
+                    <img style={{ marginRight: 10 }} src="https://win98icons.alexmeub.com/icons/png/msg_warning-0.png" width={30} />
+                    <h5>Your want to save this document on you pc?</h5>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'end', marginTop: '5px' }}>
                     <Button text='Yes' onClick={async () => {
                         try {
                             const dto = {
@@ -979,24 +704,24 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 </div>
             </Window>}
 
-            {notepad && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title={titleDocument === '' ? 'Notepad' : titleDocument.length > 10 ? '...' : titleDocument} isBtn onClick={() => { 
+            {notepad && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title={titleDocument === '' ? 'Notepad' : titleDocument.length > 10 ? '...' : titleDocument} isBtn onClick={() => { 
                 setH(true)
 
                 // setNotepad(false), not.current.style.fontSize = `13px`, setNum(''), not.current.style.fontStyle = `normal`, not.current.style.fontWidth = `normal`, not.current.style.background = `white`, not.current.style.color = `black`, setC(''), setBg(''), setInp(''), setNotepadAbout(false)
              }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', marginBottom: '5px' }}>
                     <Input placeholder='Размер шрифта' value={num} onChange={e => setNum(e.target.value)} />
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  disabled={num === '' ? true : false} onClick={() => { not.current.style.fontSize = `${num}px`} } /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  disabled={num === '' ? true : false} onClick={() => { not.current.style.fontSize = `${num}px`} } /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', marginBottom: '5px' }}>
                     <Input placeholder='Название документа' value={titleDocument} onChange={e => setTitleDocument(e.target.value)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', marginBottom: '5px' }}>
-                    <div><Button color={user?.colorButton} background={user?.bgButton} width={38} text={<FaBold />} onClick={() => not.current.style.fontWidth = `bolder`} /></div>
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} width={38} text={<FaItalic />} onClick={() => not.current.style.fontStyle = `italic`} /></div>
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text='R' onClick={() => { not.current.style.fontSize = `13px`, setNum(''), not.current.style.fontStyle = `normal`, not.current.style.fontWidth = `normal`, not.current.style.background = `white`, not.current.style.color = `black`, setC(''), setBg(''), setInp('') }} /></div>
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text={<IoMdHelp />} onClick={() => setNotepadAbout(true)} /></div>
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text='Сохранить' onClick={async () => {
+                    <div><Button color={colorButton} background={bgButton} width={38} text={<FaBold />} onClick={() => not.current.style.fontWidth = `bolder`} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} width={38} text={<FaItalic />} onClick={() => not.current.style.fontStyle = `italic`} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text='R' onClick={() => { not.current.style.fontSize = `13px`, setNum(''), not.current.style.fontStyle = `normal`, not.current.style.fontWidth = `normal`, not.current.style.background = `white`, not.current.style.color = `black`, setC(''), setBg(''), setInp('') }} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text={<IoMdHelp />} onClick={() => setNotepadAbout(true)} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text='Сохранить' onClick={async () => {
                         try {
                             const dto = {
                                 title: titleDocument,
@@ -1035,47 +760,47 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', marginBottom: '5px' }}>
                     <Input placeholder='Цвет' width={150} value={c} onChange={e => setC(e.target.value)} />
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  disabled={c === '' ? true : false} onClick={() => { not.current.style.color = `${c}` }} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  disabled={c === '' ? true : false} onClick={() => { not.current.style.color = `${c}` }} /></div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', marginBottom: '5px' }}>
                     <Input placeholder='Фон' value={bg} onChange={e => setBg(e.target.value)} />
-                    <div style={{ marginLeft: '5px' }}><Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  disabled={bg === '' ? true : false} onClick={() => { not.current.style.background = `${bg}` }} /></div>
+                    <div style={{ marginLeft: '5px' }}><Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  disabled={bg === '' ? true : false} onClick={() => { not.current.style.background = `${bg}` }} /></div>
                 </div>
                 <textarea value={inp} onChange={e => setInp(e.target.value)} ref={not} style={{ width: 205, height: 225, outline: 'none', resize: 'none' }}></textarea>
             </Window>}
 
-            {win && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Winver' isBtn onClick={() => setWin(false)}>
+            {win && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Winver' isBtn onClick={() => setWin(false)}>
                 <div style={{ marginLeft: '1rem' }}><img width={75} src='https://64.media.tumblr.com/3606de52c4d1b46b3461ec56de67ecf1/1deb8f7c5ea20016-36/s540x810/100ee5271f31915b6757108e58cb210a27606d26.gifv' /></div>
                 <h6>{font ? '_______ __ _____ ___' : 'Windows 98 v2.0 RTM'}</h6>
                 <h6 style={{ marginTop: '2px', textAlign: 'center' }}>&copy;2023-2024</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setWin(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setWin(false)} />
                 </div>
             </Window>}
 
-            {image && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Image' isBtn onClick={() => setImage(false)}>
+            {image && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Image' isBtn onClick={() => setImage(false)}>
                 <img width={200} height={250} src='https://i.pinimg.com/originals/e2/4a/f9/e24af94047b82498bc4342908be42ecb.gif' />
             </Window>}
 
-            {ie && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Internet Explorer' isBtn onClick={() => setIE(false)}>
+            {ie && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Internet Explorer' isBtn onClick={() => setIE(false)}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
-                        <Button color={user?.colorButton} background={user?.bgButton} text={<HiArrowLeftCircle />} onClick={() => { setUrl('http://666.com/'), setPage(0) }} disabled={page === 0 ? true : false} />
-                        <Button color={user?.colorButton} background={user?.bgButton} text={<HiArrowRightCircle />} onClick={() => { setUrl('http://666.com/666.html'), setPage(1) }} disabled={page === 0 ? false : true} />
-                        <Button color={user?.colorButton} background={user?.bgButton} text={<FaHome />} onClick={() => { setPage(0), setUrl('http://666.com/') }} />
-                        <Button color={user?.colorButton} background={user?.bgButton} text={<CiUnlock />} onClick={() => setLock(true)} />
-                        <Button color={user?.colorButton} background={user?.bgButton} text={<IoMdHelp />} onClick={() => setAbout(true)} />
+                        <Button color={colorButton} background={bgButton} text={<HiArrowLeftCircle />} onClick={() => { setUrl('http://666.com/'), setPage(0) }} disabled={page === 0 ? true : false} />
+                        <Button color={colorButton} background={bgButton} text={<HiArrowRightCircle />} onClick={() => { setUrl('http://666.com/666.html'), setPage(1) }} disabled={page === 0 ? false : true} />
+                        <Button color={colorButton} background={bgButton} text={<FaHome />} onClick={() => { setPage(0), setUrl('http://666.com/') }} />
+                        <Button color={colorButton} background={bgButton} text={<CiUnlock />} onClick={() => setLock(true)} />
+                        <Button color={colorButton} background={bgButton} text={<IoMdHelp />} onClick={() => setAbout(true)} />
                     </div>
                     <div style={{ marginLeft: '5px', marginRight: '5px' }}><Input value={url} onChange={e => setUrl(e.target.value)} /></div>
-                    <Button color={user?.colorButton} background={user?.bgButton} text='GO' onClick={() => {}} />
+                    <Button color={colorButton} background={bgButton} text='GO' onClick={() => null} />
                 </div>
 
-                <div className="block" style={{ height: '200px', background: `${page === 0 ? 'black' : 'red'}`, color: 'white', display: 'flex', justifyContent: 'center' }}>
-
+                <div className="block">
+                    <iframe src={url} width={300} height={300}></iframe>
                 </div>
             </Window>}
             
-            {lock && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Безопастность' isBtn onClick={() => setLock(false)}>
+            {lock && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Безопастность' isBtn onClick={() => setLock(false)}>
                 <img style={{ marginLeft: '15px' }} width={75} src='https://win98icons.alexmeub.com/icons/png/key_padlock-0.png' />
                 <h6>{font ? '____ ____ ________' : 'Этот сайт является'}</h6>
                 <h6>{font ? '__ __________ ___' : 'не зашищённым так'}</h6>
@@ -1085,27 +810,27 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 <h6>{font ? '___ ______ ___ _' : 'TLS версии 1.0 !'}</h6>
                 <h6 style={{ marginTop: '2px', textAlign: 'center' }}>&copy;2023-2024</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setLock(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setLock(false)} />
                 </div>
             </Window>}
 
-            {about && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='About' isBtn onClick={() => setAbout(false)}>
+            {about && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='About' isBtn onClick={() => setAbout(false)}>
                 <img style={{ marginLeft: '15px' }} width={75} src='https://64.media.tumblr.com/78e5e1fb87d13924b0a4b410d131b930/c6cb2fd44af16922-23/s540x810/1afa8a3117c9b8643b207a66449e9a9f8317dd5e.png' />
                 <h6>{font ? '________ ________ ____' : 'Internet Explorer v2.0'}</h6>
                 <h6 style={{ marginTop: '2px', textAlign: 'center' }}>&copy;2023-2024</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setAbout(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setAbout(false)} />
                 </div>
             </Window>}
 
-            {errorIE && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Ошибка' isBtn onClick={() => setErrorIE(false)}>
+            {errorIE && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Ошибка' isBtn onClick={() => setErrorIE(false)}>
                 <h6>{font ? '____________ _____, _________ ________' : 'Неправильный адрес, повторите попытку!'}</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setErrorIE(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setErrorIE(false)} />
                 </div>
             </Window>}
 
-            {open && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Выполнить' isBtn onClick={() => setOpen(false)}>
+            {open && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Выполнить' isBtn onClick={() => setOpen(false)}>
                 <div style={{ marginBottom: '5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Image width={50} src='https://res.cloudinary.com/penry/image/upload/v1474990231/application_hourglass_small_yyhy5z.ico' />
 
@@ -1117,7 +842,7 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                 <Input value={run} onChange={e => setRun(e.target.value)} />
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} disabled={run === '' ? true : false} text={font ? '__' : 'ОК'}  onClick={() => {
+                    <Button color={colorButton} background={bgButton} disabled={run === '' ? true : false} text={font ? '__' : 'ОК'}  onClick={() => {
                         if(run === 'Help.exe' || run === 'Help') {
                             setHelp(true)
                         } else if(run === 'Explorer.exe' || run === 'Explorer') {
@@ -1137,7 +862,7 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                         } else if(run === 'Welcome.exe' || run === 'Welcome') {
                             setWelcome(true)
                         } else if(run === 'Taskman.exe' || run === 'Taskman') {
-                            setTakman(true)
+                            setTaskman(true)
                         } else {
                             setErrorRun(true)
                         }
@@ -1145,32 +870,35 @@ export const Desktop = ({ setOpenMenu, explorer, setExplorer, help, setHelp, txt
                         setRun('')
                         setOpen(false)
                     }} />
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '______' : 'Отмена'} onClick={() => setOpen(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '______' : 'Отмена'} onClick={() => setOpen(false)} />
                 </div>
             </Window>}
 
-            {errorRun && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='Ошибка' isBtn onClick={() => { setErrorRun(false), setOpen(true) }}>
-                <h6>{font ? '_______ ___ __________' : 'Неправильное имя программы!'}</h6>
+            {errorRun && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='Ошибка' isBtn onClick={() => { setErrorRun(false), setOpen(true) }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <img src="https://win98icons.alexmeub.com/icons/png/msg_error-0.png" width={30} style={{ marginRight: 10 }} />
+                    <h6>{font ? '_______ ___ __________' : 'Неправильное имя программы!'}</h6>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => { setErrorRun(false), setOpen(true) }} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => { setErrorRun(false), setOpen(true) }} />
                 </div>
             </Window>}
 
-            {explorerAbout && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='About' isBtn onClick={() => setExplorerAbout(false) }>
+            {explorerAbout && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='About' isBtn onClick={() => setExplorerAbout(false) }>
                 <img width={70} src='https://64.media.tumblr.com/145ba88ac8fe8889043d8a929607a58e/9bd9b9bbc752d2be-8c/s540x810/b48368228fd7effc48dac782474ae5b683b64db6.png' />
                 <h6>{font ? '________ ____' : 'Explorer v1.0'}</h6>
                 <h6 style={{ marginTop: '2px', textAlign: 'center' }}>&copy;2023-2024</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setExplorerAbout(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setExplorerAbout(false)} />
                 </div>
             </Window>}
 
-            {notepadAbout && <Window isWindow={window} color={user?.colorWindow} background={user?.bgWindow} title='About' isBtn onClick={() => setNotepadAbout(false) }>
+            {notepadAbout && <Window showWindow={showWindow} isWindow={localStorage.getItem('isWindow') == null ? false : localStorage.getItem('isWindow')} color={colorWindow} background={bgWindow} title='About' isBtn onClick={() => setNotepadAbout(false) }>
                 <img width={70} src='https://64.media.tumblr.com/73f34eb6543708c5b237fd739b389a55/a76707adad47a36a-a6/s540x810/d5ca09678f2f10b2fa2f553a2c28a650fe3732b4.png' />
                 <h6>{font ? '_______ ____' : 'Notepad v2.0'}</h6>
                 <h6 style={{ marginTop: '2px', textAlign: 'center' }}>&copy;2023-2024</h6>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '5px' }}>
-                    <Button color={user?.colorButton} background={user?.bgButton} text={font ? '__' : 'ОК'}  onClick={() => setNotepadAbout(false)} />
+                    <Button color={colorButton} background={bgButton} text={font ? '__' : 'ОК'}  onClick={() => setNotepadAbout(false)} />
                 </div>
             </Window>}
         </div>

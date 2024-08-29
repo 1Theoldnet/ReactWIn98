@@ -10,7 +10,7 @@
 
 .menu {
     position: absolute;
-    bottom: 22px;
+    bottom: 24px;
     left: 0px;
     background-color: #bdbebd;
     z-index: 999;
@@ -59,7 +59,7 @@
     bottom: 24px;
     left: 0px;
     background-color: #bdbebd;
-    z-index: 10;
+    z-index: 999;
     border-left: 2px solid white;
     border-top: 2px solid white;
     border-right: 2px solid grey;
@@ -80,7 +80,120 @@
         transform-origin: 0% 0%;
         width: 150%;
         padding-top: 4px;
-        padding-bottom: 3px;
+        padding-bottom: 2px;
+        padding-left: 0px;
+        color: white;
+        position: absolute;
+        bottom: 0;
+        text-align: left;
+        margin-bottom: -15px;
+    }
+
+    ul {
+        display: block;
+        list-style-type: disc;
+        padding-inline-start: 25px;
+        unicode-bidi: isolate;
+
+        .item {
+            padding-right: 10px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            cursor: default;
+    
+            img {
+                width: 35px;
+            }
+    
+            b {
+                margin-left: 5px;
+                display: block;
+            }
+    
+            &:hover {
+                background: #000080;
+                color: white;
+            }
+        }
+    }
+}
+
+
+.menu-top-animate {
+    position: absolute;
+    top: 24px;
+    left: 0px;
+    background-color: #bdbebd;
+    z-index: 999;
+    overflow: hidden;
+    border-top: 1.5px solid white;
+    border-right: 1.5px solid grey;
+    border-bottom: 1.5px solid grey;
+    animation: ani linear 200ms;
+
+    .item {
+        padding-left: 0px;
+        padding-right: 10px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        transition: 300ms all;
+        cursor: default;
+
+        img {
+            width: 35px;
+        }
+
+        b {
+            margin-left: 5px;
+            display: block;
+        }
+
+        &:hover {
+            background: linear-gradient(to top, #000080, #1084d0);
+            color: white;
+            padding-left: 30px;
+            transform: scale(1.1);
+        }
+
+        &:active {
+            background: linear-gradient(to top, #000080, #1084d0);
+            color: white;
+            padding-left: 30px;
+            transform: scale(0.9);
+        }
+    }
+}
+
+
+.menu-top-not-animate  {
+    position: absolute;
+    top: 24px;
+    left: 0px;
+    background-color: #bdbebd;
+    z-index: 999;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+    border-right: 2px solid grey;
+    border-bottom: 2px solid grey;
+
+    .sidebar {
+        height: 100%;
+        background: linear-gradient(to bottom, #000080, #1084d0);
+        display: inline-block;
+        width: 25px;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    .headline {
+        transform: rotate(-90deg);
+        transform-origin: 0% 0%;
+        width: 150%;
+        padding-top: 4px;
+        padding-bottom: 2px;
         padding-left: 0px;
         color: white;
         position: absolute;

@@ -1,12 +1,13 @@
 import './Startbar.scss'
-import { Button } from "../ui/Button/Button"
 
-export const Startbar = ({ user, setOpenMenu, openMenu, explorer, setExplorer, help, setHelp, txt, setTxt, notepad, setNotepad, win, setWin, image, setImage, ie, setIE, setOpen, open, calc, setCalc, welcome, setWelcome, control, setControl, font, chat, setChat, letter, setLetter, command, setCommand, taskman, setTaskman }) => {
+// { setExplorer(false), setHelp(false), setTxt(false), setNotepad(false), setWin(false), setImage(false), setIE(false), setOpen(false), setCalc(false), setWelcome(false), setControl(false), setChat(false), setLetter(false), setCommand(false), setTaskman(false) }
+
+export const Startbar = ({ showWindow, setShowWindow, user, setOpenMenu, openMenu, explorer, setExplorer, help, setHelp, txt, setTxt, notepad, setNotepad, win, setWin, image, setImage, ie, setIE, setOpen, open, calc, setCalc, welcome, setWelcome, control, setControl, font, command, setCommand, taskman, setTaskman, isStartbar, bgStartbar }) => {
     return (
-        <div className="startbar" style={{ background: `${user?.bgStartbar}` }}>
-            <Button text={font ? '_____' : 'Start'} onClick={() => setOpenMenu(!openMenu)} />
+        <div className={isStartbar === 'top' ? "startbar-top" : isStartbar === 'bottom' ? "startbar-bottom" : ''} style={{ background: `${bgStartbar}` }}>
+            <button className='start' onClick={() => setOpenMenu(!openMenu)}><p>{font ? '_____' : 'Start'}</p></button>
             <div className="quvicks">
-                <div className='quvick' onClick={() => { setExplorer(false), setHelp(false), setTxt(false), setNotepad(false), setWin(false), setImage(false), setIE(false), setOpen(false), setCalc(false), setWelcome(false), setControl(false), setChat(false), setLetter(false), setCommand(false), setTaskman(false) }}>
+                <div className='quvick' onClick={() => { setShowWindow(!showWindow), console.log(showWindow) }}>
                     <img src="https://64.media.tumblr.com/ac3f1df3b5926d156ce5380a0a3fc316/1e54630572dcf2a2-1a/s540x810/b6c1e86a2a3b4d7befe0c8422611e42a1b30791f.png" />
                 </div>
                 <div className='quvick' onClick={() => setIE(true)}>
@@ -35,16 +36,6 @@ export const Startbar = ({ user, setOpenMenu, openMenu, explorer, setExplorer, h
                 {taskman && <div className='app' onClick={() => setTaskman(false)}>
                     <img src="https://64.media.tumblr.com/de739f53d0b25890cc4239e013a3d34c/457d8691505d2e11-1b/s1280x1920/5caf0bccbe2a01162648153eac9e5a337e7c60dd.png" />
                     <b>{font ? '______' : 'Taskman'}</b>
-                </div>}
-
-                {letter && <div className='app' onClick={() => setLetter(false)}>
-                    <img src="https://64.media.tumblr.com/28f7d41869ff8aec052777020eeb6242/3f276049d15c8c6e-91/s540x810/385b0d2b0f77ad276bbbdc640695b2b71a483d7a.png" />
-                    <b>{font ? '_____' : 'Почта'}</b>
-                </div>}
-
-                {chat && <div className='app' onClick={() => setChat(false)}>
-                    <img src="https://64.media.tumblr.com/ed74df4f311fb03716ecfd541736bab6/68ea07cdc3fbb503-fb/s540x810/1e9cc23bcb0739462b961f57ea3f5f1a5128a385.png" />
-                    <b>{font ? '____' : 'Chat'}</b>
                 </div>}
 
                 {help && <div className='app' onClick={() => setHelp(false)}>
@@ -88,7 +79,7 @@ export const Startbar = ({ user, setOpenMenu, openMenu, explorer, setExplorer, h
                 </div>}
 
                 {welcome && <div className='app' onClick={() => setWelcome(false)}>
-                    <img src="https://64.media.tumblr.com/ed74df4f311fb03716ecfd541736bab6/68ea07cdc3fbb503-fb/s540x810/1e9cc23bcb0739462b961f57ea3f5f1a5128a385.png" />
+                    <img src="https://win98icons.alexmeub.com/icons/png/windows_slanted-1.png" />
                     <b>{font ? '_______' : 'Welcome'}</b>
                 </div>}
             </div>

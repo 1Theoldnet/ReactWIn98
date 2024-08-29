@@ -1,35 +1,41 @@
-@keyframes app {
-    from {
-        transform: translateY(-150px);
-    }
-
-    to {
-        transform: translateY(0px);
-    }
-}
-
-@keyframes startbar {
-    from {
-        transform: translateY(30px);
-    }
-
-    to {
-        transform: translateY(0px);
-    }
-}
-
-.startbar {
+.startbar-top {
     display: flex;
     align-items: center;
     position: absolute;
     width: 100%;
-    right: 0;
-    bottom: 0;
+    top: 0;
+    left: 0;
     padding: 2px;
     z-index: 999;
     background: silver;
     box-shadow: inset 1px 1px #fff;
-    animation: startbar linear 150ms;
+
+    .start {
+        border: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 55px;
+        display: flex;
+        align-items: center;
+        height: 20px;
+        background: silver;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+        background-image: url('https://win98icons.alexmeub.com/icons/png/windows-0.png');
+        background-repeat: no-repeat;
+        background-size: 18px;
+        background-position: 3px;
+
+        &:active {
+            cursor: progress;
+            box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+        }
+
+        p {
+            margin-left: 18px;
+            font-size: 12px;
+        }
+    }
 
     .apps {
         display: flex;
@@ -45,7 +51,111 @@
             margin-left: 3px;
             cursor: default;
             background: silver;
-            animation: app linear 150ms;
+            overflow: hidden;
+
+            img {
+                width: 20px;
+            }
+
+            b {
+                margin-right: 5px;
+            }
+
+            &:active {
+                box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+            }
+        }
+    }
+
+    .quvicks {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        margin-left: 2px;
+
+        .quvick {
+            display: flex;
+            font-size: 10px;
+            align-items: center;
+            box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+            margin-left: 2px;
+
+            img {
+                width: 20px;
+                cursor: pointer;
+            }
+
+            &:active {
+                box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+            }
+        }
+
+        .right {
+            margin-right: 2px;
+        }
+    }
+}
+
+
+
+
+
+
+.startbar-bottom {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    padding: 2px;
+    z-index: 999;
+    background: silver;
+    box-shadow: inset 1px 1px #fff;
+
+    .start {
+        border: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 55px;
+        display: flex;
+        align-items: center;
+        height: 20px;
+        background: silver;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+        background-image: url('https://win98icons.alexmeub.com/icons/png/windows-0.png');
+        background-repeat: no-repeat;
+        background-size: 18px;
+        background-position: 3px;
+
+        &:active {
+            cursor: progress;
+            box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+        }
+
+        p {
+            margin-left: 18px;
+            font-size: 12px;
+        }
+    }
+
+    .apps {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .app {
+            padding: 0.3px;
+            display: flex;
+            font-size: 10px;
+            align-items: center;
+            box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+            margin-left: 3px;
+            cursor: default;
+            background: silver;
             overflow: hidden;
 
             img {
